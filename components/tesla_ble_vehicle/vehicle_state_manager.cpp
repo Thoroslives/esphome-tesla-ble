@@ -276,6 +276,17 @@ void VehicleStateManager::update_charge_state(const CarServer_ChargeState& charg
         publish_binary_sensor("managed_charging_active",
             charge_state.optional_managed_charging_active.managed_charging_active);
     }
+
+    // Publish charge_on_solar_state — the richer 8-way state for the Charge on Solar feature.
+    // Use this when you need to distinguish "user enabled solar mode" from "cloud is actively
+    // managing right now". managed_charging_active above is only set when the cloud has a live
+    // value to convey, which makes it unreliable as a "user has solar mode on" indicator.
+    if (charge_state.has_managed_charging_state &&
+        charge_state.managed_charging_state.has_charge_on_solar_state) {
+        publish_text_sensor("charge_on_solar_state",
+            get_charge_on_solar_state_text(
+                charge_state.managed_charging_state.charge_on_solar_state));
+    }
     
     // Update charge port door cover (physical door open/closed)
     if (charge_state.which_optional_charge_port_door_open) {
@@ -750,6 +761,20 @@ std::string VehicleStateManager::get_shift_state_text(const CarServer_ShiftState
         case CarServer_ShiftState_D_tag: return "D";
         case CarServer_ShiftState_SNA_tag: return "SNA";
         case CarServer_ShiftState_Invalid_tag: return "Invalid";
+        default: return "Unknown";
+    }
+}
+
+std::string VehicleStateManager::get_charge_on_solar_state_text(const CarServer_ChargeOnSolarState& state) {
+    switch (state.which_state) {
+        case CarServer_ChargeOnSolarState_not_allowed_tag: return "Not Allowed";
+        case CarServer_ChargeOnSolarState_no_charge_recommended_tag: return "No Charge Recommended";
+        case CarServer_ChargeOnSolarState_charging_on_excess_solar_tag: return "Charging on Excess Solar";
+        case CarServer_ChargeOnSolarState_charging_on_anything_tag: return "Charging on Anything";
+        case CarServer_ChargeOnSolarState_user_disabled_tag: return "User Disabled";
+        case CarServer_ChargeOnSolarState_waiting_for_server_tag: return "Waiting for Server";
+        case CarServer_ChargeOnSolarState_error_tag: return "Error";
+        case CarServer_ChargeOnSolarState_user_stopped_tag: return "User Stopped";
         default: return "Unknown";
     }
 }

@@ -163,6 +163,10 @@ TEXT_SENSORS = [
     {"id": "charging_state", "name": "Charging", "icon": "mdi:ev-station"},
     {"id": "iec61851_state", "name": "IEC 61851", "icon": "mdi:ev-plug-type2", "disabled_by_default": True},
     {"id": "shift_state", "name": "Shift State", "icon": "mdi:car-shift-pattern", "disabled_by_default": True},
+    # 8-way state for the Charge on Solar feature (managed_charging_state.charge_on_solar_state).
+    # Values: Not Allowed, No Charge Recommended, Charging on Excess Solar, Charging on Anything,
+    # User Disabled, Waiting for Server, Error, User Stopped.
+    {"id": "charge_on_solar_state", "name": "Charge on Solar State", "icon": "mdi:solar-power"},
 ]
 
 BUTTONS = [
