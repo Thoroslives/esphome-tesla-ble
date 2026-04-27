@@ -236,9 +236,14 @@ void VehicleStateManager::update_charge_state(const CarServer_ChargeState& charg
         publish_sensor("charging_rate", rate_mph);
     }
 
-    // Update charging amps (real-time feedback, never delay)
-    if (charge_state.which_optional_charger_actual_current && charging_amps_number_) {
-        const float amps = static_cast<float>(charge_state.optional_charger_actual_current.charger_actual_current);
+    // Mirror the charging-amps slider to the commanded setpoint, not the actual draw.
+    // charger_actual_current is the live draw and reads 0 whenever charging is paused
+    // (mid-session pauses, scheduled-start pending, etc.), which causes the slider to
+    // drop to 0 after every charge_state poll (issue #152). The setpoint is the value
+    // a user / automation actually commanded — track that so the slider stays accurate
+    // when charging is started elsewhere (issue #108) or briefly paused (#168).
+    if (charge_state.which_optional_charge_current_request && charging_amps_number_) {
+        const float amps = static_cast<float>(charge_state.optional_charge_current_request.charge_current_request);
         update_charging_amps(amps);
     }
     
