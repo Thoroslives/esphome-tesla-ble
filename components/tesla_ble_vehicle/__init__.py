@@ -117,6 +117,9 @@ BINARY_SENSORS = [
     
     # Drive sensors
     {"id": "parking_brake", "name": "Parking Brake", "icon": "mdi:car-brake-parking"},
+
+    # Managed-charging indicator (true while Charge on Solar / Powerwall is managing the request)
+    {"id": "managed_charging_active", "name": "Managed Charging Active", "icon": "mdi:cloud-sync"},
     
     # Individual closure sensors (disabled by default since covers/locks show aggregate state)
     {"id": "door_driver_front", "name": "Door Driver Front", "icon": "mdi:car-door", "device_class": "door", "disabled_by_default": True},
@@ -137,6 +140,8 @@ SENSORS = [
     {"id": "charger_power", "name": "Charger Power", "icon": "mdi:flash", "device_class": "power", "unit": "kW"},
     {"id": "charger_voltage", "name": "Charger Voltage", "icon": "mdi:lightning-bolt", "device_class": "voltage", "unit": "V"},
     {"id": "charger_current", "name": "Charger Current", "icon": "mdi:current-ac", "device_class": "current", "unit": "A"},
+    {"id": "charge_current_request", "name": "Charge Current Request", "icon": "mdi:current-ac", "device_class": "current", "unit": "A"},
+    {"id": "charge_current_request_max", "name": "Charge Current Request Max", "icon": "mdi:current-ac", "device_class": "current", "unit": "A", "disabled_by_default": True},
     {"id": "charging_rate", "name": "Charging Rate", "icon": "mdi:speedometer", "device_class": "speed", "unit": "mph", "accuracy_decimals": 1},
     {"id": "energy_added", "name": "Energy Added", "icon": "mdi:battery-charging", "device_class": "energy", "unit": "kWh", "accuracy_decimals": 1},
     {"id": "time_to_full", "name": "Time to Full", "icon": "mdi:clock-outline", "device_class": "duration", "unit": "min"},

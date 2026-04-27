@@ -255,6 +255,21 @@ void VehicleStateManager::update_charge_state(const CarServer_ChargeState& charg
             ESP_LOGI(STATE_MANAGER_TAG, "Received new max charging amps: %d A", new_max);
             update_charging_amps_max(new_max);
         }
+        publish_sensor("charge_current_request_max", static_cast<float>(new_max));
+    }
+
+    // Publish charge_current_request (cloud-managed setpoint, distinct from charger_actual_current)
+    if (charge_state.which_optional_charge_current_request) {
+        const float request = static_cast<float>(charge_state.optional_charge_current_request.charge_current_request);
+        publish_sensor("charge_current_request", request);
+    }
+
+    // Publish managed_charging_active — true while an external manager (e.g. Charge on Solar
+    // via Powerwall) is dynamically setting charge_current_request. Useful to gate any local
+    // throttle automation so it doesn't fight cloud-side solar matching.
+    if (charge_state.which_optional_managed_charging_active) {
+        publish_binary_sensor("managed_charging_active",
+            charge_state.optional_managed_charging_active.managed_charging_active);
     }
     
     // Update charge port door cover (physical door open/closed)
