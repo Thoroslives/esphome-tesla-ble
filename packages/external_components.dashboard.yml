@@ -1,3 +1,6 @@
 - components: [tesla_ble_vehicle, tesla_ble_listener]
-  source: github://Thoroslives/esphome-tesla-ble/components@5c583e9d00f26160c8f68c0745398fa0259665d2
+  source:
+    type: git
+    url: https://github.com/Thoroslives/esphome-tesla-ble
+    ref: 5c583e9d00f26160c8f68c0745398fa0259665d2
   refresh: 0s
