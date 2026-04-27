@@ -2,5 +2,5 @@
   source:
     type: git
     url: https://github.com/Thoroslives/esphome-tesla-ble
-    ref: 5c583e9d00f26160c8f68c0745398fa0259665d2
+    ref: da530b654538f376557fc98ecde49e69496937a0
   refresh: 0s
